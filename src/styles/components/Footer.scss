@@ -1,0 +1,27 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ddaaaa;
+  
+    .footer-social {
+      display: flex;
+      align-items: center;
+  
+      .footer-social-icon {
+        margin-left: 1rem;
+        color: #fff;
+        text-decoration: none;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  
+    .footer-contact {
+      color: #fff;
+    }
+  }
+  

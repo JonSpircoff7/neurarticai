@@ -1,0 +1,41 @@
+.info-section {
+    display: flex;
+    flex-wrap: wrap;
+  
+    .info-block {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 2rem;
+  
+      &:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+  
+      .info-text {
+        width: 50%;
+        padding: 1rem;
+  
+        p {
+          margin: 0;
+        }
+      }
+  
+      .info-image-wrapper {
+        width: 50%;
+        overflow: hidden;
+  
+        .info-image {
+          width: 100%;
+          height: auto;
+          transition: transform 0.3s;
+  
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+  
