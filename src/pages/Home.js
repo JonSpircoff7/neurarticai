@@ -1,30 +1,30 @@
-import {React, useRef, useEffect, lazy, Suspense} from 'react';
+import { React, useRef, useEffect, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Carousel from '../components/Carousel';
 import CallToAction from '../components/CallToAction';
 import styled from 'styled-components';
-import { BsArrowDown } from 'react-icons/bs'; 
-import BulbaSaur from "../assets/images/BulbasaurGiant.png"
-import GirlAsh from "../assets/images/GirlAsh.png"
-import Spoon from "../assets/images/wooden-spoons.jpg"
+import { BsArrowDown } from 'react-icons/bs';
+import BulbaSaur from '../assets/images/BulbasaurGiant.png';
+import GirlAsh from '../assets/images/GirlAsh.png';
+import Spoon from '../assets/images/wooden-spoons.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ImageGrid = lazy(() => import('../components/ImageGrid'));
 
 const HeroContainer = styled.div`
-  height: 100vh; /* change this value as desired */
+  height: 100vh;
   width: 650px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  // background: linear-gradient(rgba(26, 35, 60, 0.8), rgba(26, 35, 60, 0.8)), url('/assets/images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   padding: 0px 2%;
 `;
+
 const HeroHeader = styled.h1`
   font-family: 'Roboto', sans-serif;
   font-size: 65px;
@@ -94,9 +94,11 @@ const Section = styled.section`
   align-items: center;
   background-color: ${({ bgColor }) => bgColor || '#fff'};
 `;
+
 const Space = styled.div`
   flex: 1;
 `;
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -226,13 +228,11 @@ const Home = () => {
     { src: GirlAsh, alt: 'Image 2' },
     { src: GirlAsh, alt: 'Image 3' },
   ];
-
-  const textRef = useRef(null);
   const image1Ref = useRef(null);
   const image2Ref = useRef(null);
   const image3Ref = useRef(null);
+  
   const heroContainerRef = useRef(null);
-
   useEffect(() => {
     gsap.from(heroContainerRef.current, {
       duration: 2,
@@ -241,44 +241,37 @@ const Home = () => {
       transformOrigin: 'top',
       ease: 'bounce.out',
     });
-        gsap.from(textRef.current, {
-      scrollTrigger: {
-        trigger: textRef.current,
-        start: 'top 80%',
-      },
-      duration: 1,
-      opacity: 0,
-      x: -50,
-    });
-
     gsap.from(image1Ref.current, {
       scrollTrigger: {
         trigger: image1Ref.current,
-        start: 'top 80%',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
       },
-      duration: 1,
+      x: '-100%',
       opacity: 0,
-      x: -50,
     });
-
-    gsap.from(image3Ref.current, {
-      scrollTrigger: {
-        trigger: image3Ref.current,
-        start: 'top 80%',
-      },
-      duration: 1,
-      opacity: 0,
-      x: 50,
-    });
-
+  
     gsap.from(image2Ref.current, {
       scrollTrigger: {
         trigger: image2Ref.current,
-        start: 'top 80%',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
       },
-      duration: 1,
+      x: '100%',
       opacity: 0,
-      x: 50,
+    });
+  
+    gsap.from(image3Ref.current, {
+      scrollTrigger: {
+        trigger: image3Ref.current,
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
+      },
+      x: '-100%',
+      opacity: 0,
     });
   }, []);
   return (
@@ -315,7 +308,6 @@ const Home = () => {
        
           </Row>
           <Row>
-         
             <TextWrapper>
               <p>
                 the artist behind Neurarticai. I've always been passionate about exploring the intersection of art and technology, and
@@ -385,6 +377,7 @@ const Home = () => {
     <Carousel images={images} />
   </div>
 </Section>
+
       <Section>
         <ContactWrapper>
           <p>
