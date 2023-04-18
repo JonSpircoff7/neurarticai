@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+
 
 const NavbarContainer = styled.nav`
   display: flex;
@@ -15,6 +17,7 @@ const NavbarContainer = styled.nav`
   right: 0;
   z-index: 999;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  
 `;
 
 const LogoContainer = styled.div`
@@ -62,8 +65,25 @@ const NavLinkStyled = styled(NavLink)`
 
 function Navbar() {
   const [isSticky, setIsSticky] = useState(false);
+  const logoRef = useRef(null);
+  const navLinksRef = useRef(null);
 
   useEffect(() => {
+    gsap.from(logoRef.current, {
+      duration: 2,
+      y: 20,
+      opacity: 0,
+      ease: 'power3.inOut',
+    });
+
+    gsap.from(navLinksRef.current.children, {
+      duration: 2,
+      y: 20,
+      opacity: 0,
+      ease: 'power3.inOut',
+      stagger: 0.1,
+    });
+
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
 
@@ -80,12 +100,13 @@ function Navbar() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   return (
     <NavbarContainer isSticky={isSticky}>
       <LogoContainer>
-        <Logo>neurarticai</Logo>
+        <Logo ref={logoRef}>neurarticai</Logo>
       </LogoContainer>
-      <NavLinksContainer>
+      <NavLinksContainer ref={navLinksRef}>
         <NavLinkStyled exact to="/">
           Home
         </NavLinkStyled>
@@ -97,6 +118,5 @@ function Navbar() {
     </NavbarContainer>
   );
 }
-
 
 export default Navbar;

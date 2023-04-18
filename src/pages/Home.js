@@ -1,6 +1,6 @@
-import React from 'react';
-
-import ImageGrid from '../components/ImageGrid';
+import {React, useRef, useEffect, lazy, Suspense} from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Carousel from '../components/Carousel';
 import CallToAction from '../components/CallToAction';
 import styled from 'styled-components';
@@ -9,14 +9,18 @@ import BulbaSaur from "../assets/images/BulbasaurGiant.png"
 import GirlAsh from "../assets/images/GirlAsh.png"
 import Spoon from "../assets/images/wooden-spoons.jpg"
 
+gsap.registerPlugin(ScrollTrigger);
+
+const ImageGrid = lazy(() => import('../components/ImageGrid'));
+
 const HeroContainer = styled.div`
-  height: 90vh;
+  height: 100vh; /* change this value as desired */
   width: 650px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  background: linear-gradient(rgba(26, 35, 60, 0.8), rgba(26, 35, 60, 0.8)), url('/assets/images/hero-bg.jpg');
+  // background: linear-gradient(rgba(26, 35, 60, 0.8), rgba(26, 35, 60, 0.8)), url('/assets/images/hero-bg.jpg');
   background-size: cover;
   background-position: center;
   padding: 0px 2%;
@@ -62,13 +66,15 @@ const Subheader = styled.p`
 const CTAContainer = styled.div`
   display: flex;
   justify-content: left;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const CTAButton = styled.button`
   background-color: #ffc49b;
   color: #1A233C;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   padding: 10px 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
@@ -88,7 +94,6 @@ const Section = styled.section`
   align-items: center;
   background-color: ${({ bgColor }) => bgColor || '#fff'};
 `;
-
 const Space = styled.div`
   flex: 1;
 `;
@@ -96,53 +101,73 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 3% 0%;
 
   @media (max-width: 768px) {
     margin: 3% 5%;
   }
-`;
-const ParallaxDiv = styled.div`
-  flex: 1;
-  height: 100%;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
 
-  &:nth-child(1) {
-    background-image: url(${BulbaSaur});
+  & > div:nth-child(2) {
+    display: flex;
+    justify-content: flex-end;
   }
 
-  &:nth-child(2) {
-    background-image: url(${GirlAsh});
+  & > div:nth-child(2) > div:first-child {
+    max-width: 20%;
+    
   }
 
-  &:nth-child(3) {
-    background-image: url(${Spoon});
-  }
-
-  @media (max-width: 768px) {
-    &:nth-child(1),
-    &:nth-child(2),
-    &:nth-child(3) {
-      background-attachment: initial;
-      background-image: none;
-    }
+  & > div:nth-child(2) > div:last-child {
+    max-width: 45%;
+    margin-left: 15%;
+    
   }
 `;
-
 
 const Row = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 3% 10%;
   height: 400px;
 
   @media (max-width: 768px) {
     margin: 3% 0;
     flex-direction: column;
     height: auto;
+  }
+
+  & > div {
+    flex: 1;
+    height: 75%;
+  }
+
+  & > div:first-child {
+    max-width: 45%;
+    margin-right: 5%;
+    line-height: 35px;
+  }
+
+  & > div:last-child {
+    max-width: 20%;
+    margin-left: 15%;
+    text-align: left
+  }
+`
+const TextWrapper = styled.div`
+  max-width: 20%;
+  text-align: left;
+  font-size: 18px;
+  display:flex;
+  align-items: center;
+  margin: 0 auto; // Add this line
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  max-width: 300px;
+
+  &:nth-child(2) {
+    text-align: right;
   }
 `;
 
@@ -154,20 +179,12 @@ const ImageWrapper = styled.div`
   background-attachment: fixed;
   background-image: ${({ bgImage }) => `url(${bgImage})`};
   box-shadow: ${({ boxShadow }) => boxShadow};
+  max-width: 45%;
 
   @media (max-width: 768px) {
     display: none;
   }
-`;
-
-const TextWrapper = styled.div`
-  max-width: 40%;
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-    margin-bottom: 20px;
-  }
-`;
+  `;
 
 const ContactWrapper = styled.div`
   max-width: 75%;
@@ -210,12 +227,66 @@ const Home = () => {
     { src: GirlAsh, alt: 'Image 3' },
   ];
 
+  const textRef = useRef(null);
+  const image1Ref = useRef(null);
+  const image2Ref = useRef(null);
+  const image3Ref = useRef(null);
+  const heroContainerRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(heroContainerRef.current, {
+      duration: 2,
+      scaleY: 0,
+      opacity: 0,
+      transformOrigin: 'top',
+      ease: 'bounce.out',
+    });
+        gsap.from(textRef.current, {
+      scrollTrigger: {
+        trigger: textRef.current,
+        start: 'top 80%',
+      },
+      duration: 1,
+      opacity: 0,
+      x: -50,
+    });
+
+    gsap.from(image1Ref.current, {
+      scrollTrigger: {
+        trigger: image1Ref.current,
+        start: 'top 80%',
+      },
+      duration: 1,
+      opacity: 0,
+      x: -50,
+    });
+
+    gsap.from(image3Ref.current, {
+      scrollTrigger: {
+        trigger: image3Ref.current,
+        start: 'top 80%',
+      },
+      duration: 1,
+      opacity: 0,
+      x: 50,
+    });
+
+    gsap.from(image2Ref.current, {
+      scrollTrigger: {
+        trigger: image2Ref.current,
+        start: 'top 80%',
+      },
+      duration: 1,
+      opacity: 0,
+      x: 50,
+    });
+  }, []);
   return (
     <>
     <main className="home-page">
       <Section height="90vh">
         <Space />
-        <HeroContainer>
+       <HeroContainer ref={heroContainerRef}>
         <HeroHeader>Discover a New Era of Artistic Innovation</HeroHeader>
           <Subheader>Experience the Magic of AI-Generated Artworks and Redefine Your Perception of Art</Subheader>
           <CTAContainer>
@@ -225,12 +296,15 @@ const Home = () => {
           <ScrollDownIcon />
         </HeroContainer>
         <Space />
-        <ImageGrid images={images} />
-        <Space />
-      </Section>
+          <Suspense fallback={<div>Loading...</div>}>
+            <ImageGrid images={images} />
+          </Suspense>
+          <Space />
+        </Section>
       <Section id="F" height="max-content">
         <ContentWrapper>
           <Row >
+            <ImageWrapper ref={image1Ref} bgImage={BulbaSaur} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
             <TextWrapper>
               <p>
                 With over a decade of experience in the art world, I've had the opportunity to exhibit my works in galleries and museums around
@@ -238,21 +312,20 @@ const Home = () => {
                 under some of the most talented artists in the field.
               </p>
             </TextWrapper>
-            <ImageWrapper bgImage={BulbaSaur} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
        
           </Row>
           <Row>
          
-          <ImageWrapper bgImage={GirlAsh} boxShadow="5px 0px 10px rgba(0, 0, 0, 0.2)" />
             <TextWrapper>
-              <h2>Hi there, I'm Jonathan Spircoff</h2>
               <p>
                 the artist behind Neurarticai. I've always been passionate about exploring the intersection of art and technology, and
                 that's why I started using the Midjourney AI image generator to create my artworks.
               </p>
             </TextWrapper>
+          <ImageWrapper ref={image2Ref} bgImage={GirlAsh} boxShadow="5px 0px 10px rgba(0, 0, 0, 0.2)" />
           </Row>
           <Row>
+            <ImageWrapper ref={image3Ref} bgImage={Spoon} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
             <TextWrapper>
               <p>
                 When I discovered the potential of AI-generated art, I was immediately fascinated by its possibilities. Using the Midjourney AI
@@ -261,55 +334,57 @@ const Home = () => {
                 boundaries of what's possible with this exciting new medium.
               </p>
             </TextWrapper>
-            <ImageWrapper bgImage={Spoon} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
           </Row>
         </ContentWrapper>
       </Section>
       <Section
-        bgColor="#f5f5f5"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
-      >
-        <div style={{ width: '60%', maxWidth: '75%', display:"flex", justifyContent: "space-around" }}>
-          <Carousel images={images} />
-          <Carousel images={images} />
-          <Carousel images={images} />
-        </div>
-        <div style={{ width: '100%', maxWidth: '60%', padding: '3% 0' }}>
-          <p>
-          Explore a selection of my latest AI-generated artworks in the gallery section of Neurarticai. Each piece is a unique blend of technology and artistic vision, resulting in stunning and thought-provoking works of art.
-          </p>
-          <p>
-            I've organized the gallery into several categories to help you explore my works in more detail:
-          </p>
-          <h3>Landscapes</h3>
-          <p>
-            Experience the beauty of nature through my AI-generated landscapes. Each piece captures the essence of a particular environment, from the rolling hills of the countryside to the majestic mountains of the wilderness.
-          </p>
-          <h3>Portraits</h3>
-          <p>
-            Discover the human form through my AI-generated portraits. Each piece is a unique interpretation of the human face, capturing the emotions and expressions of the subject in a way that is both captivating and haunting.
-          </p>
-          <h3>Abstracts</h3>
-          <p>
-            Explore the world of abstract art through my AI-generated compositions. Each piece is a mesmerizing blend of color, texture, and form, inviting the viewer to get lost in a world of pure imagination.
-          </p>
-          <h3>Still Life</h3>
-          <p>
-            Appreciate the beauty of everyday objects through my AI-generated still life compositions. Each piece captures the details and nuances of the subject in a way that is both realistic and surreal.
-          </p>
-          <p>
-            Each artwork in the gallery is accompanied by a brief description that provides some context and insight into the piece. I hope you enjoy exploring my gallery and discovering the possibilities of AI-generated art.
-          </p>
-          <p>
-            If you're interested in purchasing any of the artworks showcased in the gallery, please don't hesitate to get in touch. I'd be more than happy to provide you with more information about pricing and shipping options.
-          </p>
-        </div>
-      </Section>
+  bgColor="#f5f5f5"
+  style={{
+    display: 'flex',
+    alignItems: 'start',
+    justifyContent: 'center',
+    position: 'relative',
+  }}
+>
+  <div style={{width: '45%',
+    maxWidth: '60%',
+    textAlign: 'center',
+    padding: '5%' }}>
+    <p>
+      Explore a selection of my latest AI-generated artworks in the gallery section of Neurarticai. Each piece is a unique blend of technology and artistic vision, resulting in stunning and thought-provoking works of art.
+    </p>
+    <p>
+      I've organized the gallery into several categories to help you explore my works in more detail:
+    </p>
+    <h3>Landscapes</h3>
+    <p>
+      Experience the beauty of nature through my AI-generated landscapes. Each piece captures the essence of a particular environment, from the rolling hills of the countryside to the majestic mountains of the wilderness.
+    </p>
+    <h3>Portraits</h3>
+    <p>
+      Discover the human form through my AI-generated portraits. Each piece is a unique interpretation of the human face, capturing the emotions and expressions of the subject in a way that is both captivating and haunting.
+    </p>
+    <h3>Abstracts</h3>
+    <p>
+      Explore the world of abstract art through my AI-generated compositions. Each piece is a mesmerizing blend of color, texture, and form, inviting the viewer to get lost in a world of pure imagination.
+    </p>
+    <h3>Still Life</h3>
+    <p>
+      Appreciate the beauty of everyday objects through my AI-generated still life compositions. Each piece captures the details and nuances of the subject in a way that is both realistic and surreal.
+    </p>
+    <p>
+      Each artwork in the gallery is accompanied by a brief description that provides some context and insight into the piece. I hope you enjoy exploring my gallery and discovering the possibilities of AI-generated art.
+    </p>
+    <p>
+      If you're interested in purchasing any of the artworks showcased in the gallery, please don't hesitate to get in touch. I'd be more than happy to provide you with more information about pricing and shipping options.
+    </p>
+  </div>
+  <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', justifyContent: 'space-around', width: '80%' }}>
+    <Carousel images={images} />
+    <Carousel images={images} />
+    <Carousel images={images} />
+  </div>
+</Section>
       <Section>
         <ContactWrapper>
           <p>

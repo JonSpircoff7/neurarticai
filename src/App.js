@@ -13,17 +13,17 @@ import './styles/components/PageWrapper.scss';
 function App() {
   return (
     <>
-  <Navbar />
-  <div className="page-content">
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/gallery" element={<Gallery />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/additional" element={<AdditionalPage />} />
-    </Routes>
-  </div>
-  <Footer />
+      <Navbar />
+      <div className="page-content" style={{ minHeight: 'calc(100vh - 136px)' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/additional" element={<AdditionalPage />} />
+        </Routes>
+      </div>
+      <Footer />
     </>
   );
 }

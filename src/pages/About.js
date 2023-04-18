@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
 const AboutPage = styled.main`
+  height: 68vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,18 +76,7 @@ const About = () => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
   
-    gsap.from(textContainerRef.current, {
-      duration: 1,
-      y: 25,
-      opacity: 0,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: textContainerRef.current,
-        start: "top bottom-=200",
-        end: "bottom top",
-        toggleActions: "play none none reverse",
-      },
-    });
+  
   
     gsap.from(imagesContainerRef.current, {
       duration: 1,

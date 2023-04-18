@@ -18,7 +18,7 @@ const Subheader = styled.p`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-gap: 20px;
   margin: 40px 15%;
 `;
@@ -27,12 +27,12 @@ const ImageContainer = styled.div`
   width: 100%;
   min-width: 150px;
   min-height: 150px;
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 600px;
+  max-height: 700px;
   margin: 0 auto;
   overflow: hidden;
-  border-radius: 5px;
   opacity: 0;
+  grid-row-end: ${(props) => `span ${props.span}`};
 `;
 
 const Image = styled.img`
@@ -42,11 +42,7 @@ const Image = styled.img`
 `;
 
 const Gallery = () => {
-  const allImages = [
-    { src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },{ src: BulbaSaur, alt: "Image 1" },
-    // ... your existing images
-    // Add more images as needed
-  ];
+  const allImages = [    { src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" }];
 
   const [visibleImages, setVisibleImages] = useState(allImages.slice(0, 50));
 
@@ -70,7 +66,7 @@ const Gallery = () => {
           !imageContainer.classList.contains("visible")
         ) {
           gsap.to(imageContainer, {
-            duration: 0.5,
+            duration: 0.25,
             opacity: 1,
             x: 0,
             delay: index * 0.1,
