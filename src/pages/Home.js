@@ -228,9 +228,18 @@ const Home = () => {
     { src: GirlAsh, alt: 'Image 2' },
     { src: GirlAsh, alt: 'Image 3' },
   ];
+
   const image1Ref = useRef(null);
   const image2Ref = useRef(null);
   const image3Ref = useRef(null);
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+  const text3Ref = useRef(null);
+  const artStyleRef = useRef(null);
+  const carouselRef = useRef(null);
+  const contactWrapperRef = useRef(null);
+  const landscapeRef = useRef(null);
+  const contactRef = useRef(null);
   
   const heroContainerRef = useRef(null);
   useEffect(() => {
@@ -273,6 +282,73 @@ const Home = () => {
       x: '-100%',
       opacity: 0,
     });
+    gsap.from(text1Ref.current, {
+  scrollTrigger: {
+    trigger: text1Ref.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  x: '100%',
+  opacity: 0,
+});
+
+gsap.from(text2Ref.current, {
+  scrollTrigger: {
+    trigger: text2Ref.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  x: '-100%',
+  opacity: 0,
+});
+
+gsap.from(text3Ref.current, {
+  scrollTrigger: {
+    trigger: text3Ref.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  x: '100%',
+  opacity: 0,
+});
+gsap.from(artStyleRef.current, {
+  scrollTrigger: {
+    trigger: landscapeRef.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  duration: 1.5,
+  y: 50,
+  opacity: 0,
+});
+
+gsap.from(carouselRef.current, {
+  scrollTrigger: {
+    trigger: carouselRef.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  duration: 1.5, // Increased duration
+  y: 20,
+  opacity: 0 // Added ease
+});
+
+gsap.from(contactWrapperRef.current, {
+  scrollTrigger: {
+    trigger: contactRef.current,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: true,
+  },
+  duration: 1.5, // Increased duration
+  y: 20,
+  opacity: 0, // Added ease
+});
   }, []);
   return (
     <>
@@ -298,7 +374,7 @@ const Home = () => {
         <ContentWrapper>
           <Row >
             <ImageWrapper ref={image1Ref} bgImage={BulbaSaur} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
-            <TextWrapper>
+            <TextWrapper ref={text1Ref}>
               <p>
                 With over a decade of experience in the art world, I've had the opportunity to exhibit my works in galleries and museums around
                 the world. I hold a degree in Fine Arts from the University of California, Los Angeles, and I've been fortunate enough to study
@@ -308,7 +384,7 @@ const Home = () => {
        
           </Row>
           <Row>
-            <TextWrapper>
+            <TextWrapper ref={text2Ref}>
               <p>
                 the artist behind Neurarticai. I've always been passionate about exploring the intersection of art and technology, and
                 that's why I started using the Midjourney AI image generator to create my artworks.
@@ -318,7 +394,7 @@ const Home = () => {
           </Row>
           <Row>
             <ImageWrapper ref={image3Ref} bgImage={Spoon} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
-            <TextWrapper>
+            <TextWrapper ref={text3Ref}>
               <p>
                 When I discovered the potential of AI-generated art, I was immediately fascinated by its possibilities. Using the Midjourney AI
                 image generator, I've been able to create stunning and thought-provoking artworks that challenge the viewer's perceptions of
@@ -341,14 +417,14 @@ const Home = () => {
   <div style={{width: '45%',
     maxWidth: '60%',
     textAlign: 'center',
-    padding: '5%' }}>
+    padding: '5%' }} ref={artStyleRef}>
     <p>
       Explore a selection of my latest AI-generated artworks in the gallery section of Neurarticai. Each piece is a unique blend of technology and artistic vision, resulting in stunning and thought-provoking works of art.
     </p>
     <p>
       I've organized the gallery into several categories to help you explore my works in more detail:
     </p>
-    <h3>Landscapes</h3>
+    <h3 ref={landscapeRef}>Landscapes</h3>
     <p>
       Experience the beauty of nature through my AI-generated landscapes. Each piece captures the essence of a particular environment, from the rolling hills of the countryside to the majestic mountains of the wilderness.
     </p>
@@ -371,7 +447,7 @@ const Home = () => {
       If you're interested in purchasing any of the artworks showcased in the gallery, please don't hesitate to get in touch. I'd be more than happy to provide you with more information about pricing and shipping options.
     </p>
   </div>
-  <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', justifyContent: 'space-around', width: '80%' }}>
+  <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', justifyContent: 'space-around', width: '80%' }} ref={carouselRef}>
     <Carousel images={images} />
     <Carousel images={images} />
     <Carousel images={images} />
@@ -379,12 +455,12 @@ const Home = () => {
 </Section>
 
       <Section>
-        <ContactWrapper>
+        <ContactWrapper ref={contactWrapperRef}>
           <p>
             Thank you for taking the time to explore my AI-generated artworks on Neurarticai. I hope you enjoyed discovering the possibilities
             of this exciting new medium.
           </p>
-          <p>
+          <p ref={contactRef}>
             If you'd like to stay updated on my latest works and news, please consider following me on social media. You can find me on{' '}
             <SocialLinks>
               <a href="https://www.facebook.com/yourusername" target="_blank" rel="noopener noreferrer">Facebook</a>,
