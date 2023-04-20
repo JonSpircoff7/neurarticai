@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Header from "../components/Header";
 import styled from "styled-components";
-import BulbaSaur from "../assets/images/BulbasaurGiant.png";
+import BulbaSaur from "../assets/images/fun.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 

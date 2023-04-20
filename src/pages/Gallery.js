@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { gsap } from "gsap";
 import Header from "../components/Header";
 import styled from "styled-components";
-import BulbaSaur from "../assets/images/BulbasaurGiant.png";
+import Masonry from 'react-masonry-css';
+
+const images = require.context("../assets/images", true, /\.(png|jpe?g|svg|webp)$/);
+
 
 const HeaderContainer = styled.header`
-  color: #ffefd3;
+  color: black;
+  font-weight: 600;
   padding: 30px;
   text-align: center;
 `;
@@ -16,23 +20,23 @@ const Subheader = styled.p`
   margin-top: 10px;
 `;
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-gap: 20px;
-  margin: 40px 15%;
+const GridContainer = styled(Masonry)`
+  display: flex;
+  margin: 0 auto;
+  width: 55%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const ImageContainer = styled.div`
-  width: 100%;
-  min-width: 150px;
-  min-height: 150px;
-  max-width: 600px;
-  max-height: 700px;
   margin: 0 auto;
   overflow: hidden;
   opacity: 0;
-  grid-row-end: ${(props) => `span ${props.span}`};
+  padding: 15px;
 `;
 
 const Image = styled.img`
@@ -41,28 +45,42 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const Gallery = () => {
-  const allImages = [    { src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" },{ src: BulbaSaur, alt: "Image 1" },    { src: BulbaSaur, alt: "Image 2" },    { src: BulbaSaur, alt: "Image 3" }];
+const breakpointColumnsObj = {
+  default: 3,
+  1100: 3,
+  700: 2,
+  500: 1
+};
 
-  const [visibleImages, setVisibleImages] = useState(allImages.slice(0, 50));
+const Gallery = () => {
+  const allImages = images.keys().map((imagePath) => {
+    const imageName = imagePath.slice(2);
+    return {
+      src: `/api/processImage/${imageName}?format=webp`,
+      alt: imageName.slice(0, -4),
+    };
+  });
+
+  const shuffledImages = allImages.sort(() => Math.random() - 0.5);
+
+  const initialImagesCount = Math.ceil((window.innerHeight * 10) / 250) * 3;
+  const [visibleImages, setVisibleImages] = useState(shuffledImages.slice(0, initialImagesCount));
 
   useEffect(() => {
     const onScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100) {
         showMoreImages();
       }
     };
-
+    console.log("All images:", allImages);
     const handleOpacity = () => {
       const imageContainers = document.querySelectorAll(".image-container");
       imageContainers.forEach((imageContainer, index) => {
         const rect = imageContainer.getBoundingClientRect();
+        const halfPage = window.innerHeight / 2;
         if (
-          rect.top < window.innerHeight &&
-          rect.bottom > 0 &&
+          rect.top < window.innerHeight + halfPage &&
+          rect.bottom > -halfPage &&
           !imageContainer.classList.contains("visible")
         ) {
           gsap.to(imageContainer, {
@@ -86,12 +104,16 @@ const Gallery = () => {
   }, []);
 
   const showMoreImages = () => {
-    const nextImages = allImages.slice(
+  // Check if there are more images to load
+  if (visibleImages.length < shuffledImages.length) {
+    const nextImages = shuffledImages.slice(
       visibleImages.length,
-      visibleImages.length + 10
+      visibleImages.length + 10 // Change this number to load more or fewer images
     );
     setVisibleImages([...visibleImages, ...nextImages]);
-  };
+  }
+};
+
 
   return (
     <main className="gallery-page">
@@ -99,15 +121,24 @@ const Gallery = () => {
         <Header title="Art Gallery" />
         <Subheader>Explore the Collection</Subheader>
       </HeaderContainer>
-      <GridContainer>
+      <GridContainer
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
         {visibleImages.map((image, index) => (
-          <ImageContainer key={index} className="image-container">
-            <Image src={image.src} alt={image.alt} />
+          <ImageContainer
+            key={index}
+            className="image-container"
+            style={{
+              gridRowEnd: `span ${Math.ceil(image.height / 10)}`
+            }}>
+            <Image src={image.src} alt={image.alt} loading="lazy"/>
           </ImageContainer>
         ))}
       </GridContainer>
     </main>
   );
 };
+
 
 export default Gallery;

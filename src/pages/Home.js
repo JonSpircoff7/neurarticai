@@ -5,9 +5,8 @@ import Carousel from '../components/Carousel';
 import CallToAction from '../components/CallToAction';
 import styled from 'styled-components';
 import { BsArrowDown } from 'react-icons/bs';
-import BulbaSaur from '../assets/images/BulbasaurGiant.png';
+import BulbaSaur from '../assets/images/fun.jpg';
 import GirlAsh from '../assets/images/GirlAsh.png';
-import Spoon from '../assets/images/wooden-spoons.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -242,7 +241,9 @@ const Home = () => {
   const contactRef = useRef(null);
   
   const heroContainerRef = useRef(null);
+  
   useEffect(() => {
+    window.scrollTo(0, 0);
     gsap.from(heroContainerRef.current, {
       duration: 2,
       scaleY: 0,
@@ -321,7 +322,7 @@ gsap.from(artStyleRef.current, {
     end: 'top top',
     scrub: true,
   },
-  duration: 1.5,
+  duration: 2.5,
   y: 50,
   opacity: 0,
 });
@@ -333,7 +334,7 @@ gsap.from(carouselRef.current, {
     end: 'top top',
     scrub: true,
   },
-  duration: 1.5, // Increased duration
+  duration: 2.5, // Increased duration
   y: 20,
   opacity: 0 // Added ease
 });
@@ -393,7 +394,7 @@ gsap.from(contactWrapperRef.current, {
           <ImageWrapper ref={image2Ref} bgImage={GirlAsh} boxShadow="5px 0px 10px rgba(0, 0, 0, 0.2)" />
           </Row>
           <Row>
-            <ImageWrapper ref={image3Ref} bgImage={Spoon} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
+            <ImageWrapper ref={image3Ref} bgImage={GirlAsh} boxShadow="-5px 0px 10px rgba(0, 0, 0, 0.2)" />
             <TextWrapper ref={text3Ref}>
               <p>
                 When I discovered the potential of AI-generated art, I was immediately fascinated by its possibilities. Using the Midjourney AI
@@ -424,11 +425,11 @@ gsap.from(contactWrapperRef.current, {
     <p>
       I've organized the gallery into several categories to help you explore my works in more detail:
     </p>
-    <h3 ref={landscapeRef}>Landscapes</h3>
+    <h3>Landscapes</h3>
     <p>
       Experience the beauty of nature through my AI-generated landscapes. Each piece captures the essence of a particular environment, from the rolling hills of the countryside to the majestic mountains of the wilderness.
     </p>
-    <h3>Portraits</h3>
+    <h3 ref={landscapeRef}>Portraits</h3>
     <p>
       Discover the human form through my AI-generated portraits. Each piece is a unique interpretation of the human face, capturing the emotions and expressions of the subject in a way that is both captivating and haunting.
     </p>
