@@ -20,13 +20,13 @@ app.get("/api/processImage/:imageName", async (req, res) => {
 
     // Process the image using sharp with the provided options
     const processedImage = await sharp(imagePath)
-      .resize(1024)
+      .resize(4096)
       .normalize(255)
       .gamma(1)
       .sharpen()
       .modulate({saturation: 1.2 })
       .linear(1.1, 0) // Adjust the contrast using the linear function
-       [format]({ quality: 70 })
+      [format]({ quality: 70 })
       .toBuffer();
 
     res.setHeader("Content-Type", "image/webp");
