@@ -99,7 +99,7 @@ const Contact = () => {
   };
   
   return (
-    <div style={{display: 'flex', alignItems: 'center', height: '85.8vh'}}>
+    <div style={{display: 'flex', alignItems: 'center', height: '100vh'}}>
     <Card className={classes.card} ref={formRef}>
       <CardContent>
         <Typography variant="h5" className={classes.title}>

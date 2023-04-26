@@ -14,7 +14,7 @@ const ImageGrid = lazy(() => import('../components/ImageGrid'));
 
 const HeroContainer = styled.div`
   height: 100vh;
-  width: 650px;
+  width: 650px; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,7 +65,6 @@ const Subheader = styled.p`
 const CTAContainer = styled.div`
   display: flex;
   justify-content: left;
-  padding-top: 20px;
   padding-bottom: 20px;
 `;
 
@@ -92,6 +91,15 @@ const Section = styled.section`
   justify-content: center;
   align-items: center;
   background-color: ${({ bgColor }) => bgColor || '#fff'};
+  &:nth-of-type(1) {
+    height: 90vh;
+    background-size: contain;
+    background-position: center;
+  }
+  &:nth-of-type(2) {
+    background-color: #ffa16a;
+    overflow-x: hidden;
+  }
 `;
 
 const Space = styled.div`
@@ -244,13 +252,15 @@ const Home = () => {
   
   useEffect(() => {
     window.scrollTo(0, 0);
-    gsap.from(heroContainerRef.current, {
+    gsap.from(heroContainerRef.current.children, {
       duration: 2,
-      scaleY: 0,
       opacity: 0,
-      transformOrigin: 'top',
-      ease: 'bounce.out',
+      y: 20,
+      stagger: 0.3,
+      ease: "power3.out",
+      delay: .5,
     });
+    
     gsap.from(image1Ref.current, {
       scrollTrigger: {
         trigger: image1Ref.current,

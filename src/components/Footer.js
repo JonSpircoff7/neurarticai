@@ -15,9 +15,9 @@ const Footer = ({ contactInfo }) => {
         <h3>Follow</h3>
         <ul>
           <li>
-            {/* <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer">
+            {/* {<a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faFacebook} />
-            </a> */}
+            </a>} */}
           </li>
           <li>
             {/* <a href={contactInfo.twitter} target="_blank" rel="noopener noreferrer">

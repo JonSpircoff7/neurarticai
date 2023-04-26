@@ -23,7 +23,7 @@ const NavbarContainer = styled.nav`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10vw;
+  margin-left: 15vw;
 `;
 
 const Logo = styled.h1`
@@ -37,7 +37,7 @@ const Logo = styled.h1`
 const NavLinksContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 10vw;
+  margin-right: 15vw;
 `;
 
 const NavLinkStyled = styled(NavLink)`

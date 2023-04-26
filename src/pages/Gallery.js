@@ -23,7 +23,7 @@ const Subheader = styled.p`
 const GridContainer = styled(Masonry)`
   display: flex;
   margin: 0 auto;
-  width: 65%;
+  width: 55%;
   margin-top: 40px;
   margin-bottom: 40px;
   grid-auto-flow: row;
@@ -33,20 +33,6 @@ const GridContainer = styled(Masonry)`
     width: 90%;
   }
 `;
-
-const ImageContainer = styled.div`
-  position: relative;
-  margin: 0 auto;
-  overflow: hidden;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-
-  &:hover {
-    filter: brightness(70%);
-  }
-`;
-
 
 const Image = styled.img`
   width: 100%;
@@ -59,6 +45,7 @@ const Image = styled.img`
   }
 `;
 const DownloadButton = styled.a`
+  display: none;
   position: absolute;
   bottom: 25px;
   right: 25px;
@@ -69,10 +56,27 @@ const DownloadButton = styled.a`
   font-size: 16px;
   border-radius: 50%;
   text-decoration: none;
-  display: flex;
   align-items: center;
   justify-content: center;
 `;
+const ImageContainer = styled.div`
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    filter: brightness(70%);
+  }
+
+  &:hover > ${DownloadButton} {
+    display: block;
+  }
+`;
+
+
 
 const Icon = styled(FontAwesomeIcon)`
   width: 1em;
@@ -177,17 +181,17 @@ const Gallery = () => {
         columnClassName="my-masonry-grid_column">
        {visibleImages.map((image, index) => (
   <ImageContainer
-    key={index}
-    className="image-container"
-    style={{
-      gridRowEnd: `span ${Math.ceil(image.height / 10)}`
-    }}
-  >
-    <Image src={image.src} alt={image.alt} />
-    <DownloadButton href={image.src} download={`${image.alt}.jpg`}>
-  <Icon icon={faDownload} />
-</DownloadButton>
-  </ImageContainer>
+  key={index}
+  className="image-container"
+  style={{
+    gridRowEnd: `span ${Math.ceil(image.height / 10)}`
+  }}
+>
+  <Image src={image.src} alt={image.alt} />
+  <DownloadButton href={image.src} download={`${image.alt}.jpg`}>
+    <Icon icon={faDownload} />
+  </DownloadButton>
+</ImageContainer>
 ))}
 
       </GridContainer>
